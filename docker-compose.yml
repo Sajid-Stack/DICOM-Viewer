@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  orthanc:
+    image: jodogne/orthanc-plugins:latest
+    container_name: orthanc
+    ports:
+      - "8042:8042" # rest api + built-in web ui
+      - "4242:4242" # classic dicom port, used by real scanners (not needed for this project)
+    environment:
+      ORTHANC__NAME: "DevOrthanc"
+      ORTHANC__DICOM_WEB__ENABLE: "true"
+      ORTHANC__REGISTERED_USERS: '{"demo12345": "12345"}'
+    volumes:
+      - orthanc-storage:/var/lib/orthanc/db
+
+  postgres:
+    image: postgres:16
+    container_name: dicom-viewer-postgres
+    ports:
+      - "5433:5432" # 5433 on host so it doesn't clash with a local postgres on 5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: dicom_viewer
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  orthanc-storage:
+  postgres-data:

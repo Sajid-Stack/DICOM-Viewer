@@ -1,0 +1,39 @@
+
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+
+
+
+model User {
+  id           String     @id @default(uuid())
+  email        String     @unique
+  passwordHash String
+  role         Role       @default(VIEWER)
+  createdAt    DateTime   @default(now())
+  logs         AuditLog[]
+}
+
+enum Role {
+  ADMIN
+  VIEWER
+}
+
+
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  action    String  
+  studyUID  String?
+  createdAt DateTime @default(now())
+}

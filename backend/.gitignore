@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.env
+.env.local
+
+/src/generated/prisma
+
+# OS/editor noise that shouldn't end up in git
+.DS_Store
+*.log
