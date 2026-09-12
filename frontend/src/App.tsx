@@ -23,7 +23,7 @@ function TopBar() {
 
   return (
     <div className="top-bar">
-      <div className="brand">DICOM<span>Viewer</span></div>
+      <div className="brand">Radiqon<span>Viewer</span></div>
       <button onClick={handleLogout}>Sign out</button>
     </div>
   );
