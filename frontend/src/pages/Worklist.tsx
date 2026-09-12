@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { getStudies, Study } from "../lib/api";
 
 // OHIF reads ?StudyInstanceUIDs= from the url and opens that study directly
-const OHIF_URL = import.meta.env.VITE_OHIF_URL || "http://localhost:3000";
+const OHIF_URL = import.meta.env.VITE_OHIF_URL || "https://viewer-gom6mi9g3-sajid-stacks-projects.vercel.app/";
 
 function formatDate(raw: string) {
   if (raw.length !== 8) return raw || "-";
