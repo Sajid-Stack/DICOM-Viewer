@@ -2,6 +2,7 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import { createProxyMiddleware } from "http-proxy-middleware";
 import authRoutes from "./routes/auth";
 import studiesRoutes from "./routes/studies";
 import wadoRoutes from "./routes/wado";
@@ -9,6 +10,7 @@ import wadoRoutes from "./routes/wado";
 const app = express();
 const PORT = process.env.PORT || 4000;
 const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
+const ORTHANC_URL = process.env.ORTHANC_URL || "http://localhost:8042";
 
 
 app.use(
@@ -17,6 +19,19 @@ app.use(
     credentials: true,
   }),
 );
+
+
+app.use(
+  "/dicom-web",
+  cors({ origin: true }),
+  createProxyMiddleware({
+    target: ORTHANC_URL,
+    changeOrigin: true,
+
+    pathRewrite: (path) => `/dicom-web${path}`,
+  }),
+);
+
 app.use(cookieParser());
 app.use(express.json());
 
