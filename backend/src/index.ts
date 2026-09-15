@@ -12,23 +12,21 @@ const PORT = process.env.PORT || 4000;
 const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
 const ORTHANC_URL = process.env.ORTHANC_URL || "http://localhost:8042";
 
-
-app.use(
-  cors({
-    origin: FRONTEND_URL,
-    credentials: true,
-  }),
-);
-
-
 app.use(
   "/dicom-web",
   cors({ origin: true }),
   createProxyMiddleware({
     target: ORTHANC_URL,
     changeOrigin: true,
-
     pathRewrite: (path) => `/dicom-web${path}`,
+  }),
+);
+
+
+app.use(
+  cors({
+    origin: FRONTEND_URL,
+    credentials: true,
   }),
 );
 
